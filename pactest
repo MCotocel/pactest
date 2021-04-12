@@ -1,4 +1,5 @@
-mkdir -p .cache/pactest/
+#!/bin/bash
+mkdir -p $HOME/.cache/pactest/
 CHROOT=$HOME/pactest/
 
 function help() {
