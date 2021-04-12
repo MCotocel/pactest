@@ -1,0 +1,127 @@
+mkdir -p .cache/pactest/
+CHROOT=$HOME/pactest/
+
+function help() {
+    echo 'Usage: pactest [OPTION] [PACKAGE]'
+    echo 'Options:'
+    echo '-h, --help:    Show this text'
+    echo '-s, --setup:   Setup chroot'
+    echo '-i, --install: Install package in chroot'
+    echo '-x, --execute: Execute package in chroot'
+    echo '-d, --delete:  Delete chroot'
+    echo '-c, --chroot:  chroot into chroot'
+    exit
+}
+
+function setup() {
+    echo 'Downloading Arch Bootstrap Archive. This may take a while if file is not cached'
+    wget -cq 'https://mirrors.mit.edu/archlinux/iso/2021.04.01/archlinux-bootstrap-2021.04.01-x86_64.tar.gz' -O .cache/pactest/archlinux-bootstrap.tar.gz
+    ls $CHROOT/etc > /dev/null 2>&1
+    if [ $? == '2' ]; then
+        echo 'Extracting archive to chroot location'
+        mkdir $CHROOT
+        sudo tar xf .cache/pactest/archlinux-bootstrap.tar.gz -C $CHROOT/ > /dev/null 2>&1
+        sudo mv $CHROOT/root.x86_64/* $CHROOT/
+        sudo rm -rf $CHROOT/root.x86_64
+        sudo pacstrap $CHROOT base iputils
+        echo 'Entering chroot. This will take some time'
+        sudo mount --bind $CHROOT $CHROOT
+        cat <<EOF | sudo arch-chroot $CHROOT
+echo 'Server = http://mirrors.mit.edu/archlinux/$repo/os/$arch' >> /etc/pacman.d/mirrorlist
+useradd --create-home chroot --gid wheel
+echo 'chroot:chroot' | chpasswd
+pacman -Syu --noconfirm
+pacman -S --needed base-devel sudo git --noconfirm
+echo '%wheel ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
+echo 'Defaults        lecture = never' >> /etc/sudoers.d/privacy
+su chroot
+git clone https://aur.archlinux.org/paru.git
+cd paru
+makepkg -si --noconfirm
+cd ..
+rm -rf paru
+EOF
+        clear
+        echo 'chroot set up. User is chroot, password is chroot'
+    else
+        echo 'chroot already set up'
+        exit
+    fi
+
+}
+
+function install() {
+    ls $CHROOT/etc > /dev/null 2>&1
+    if [ $? == '2' ]; then
+        echo 'chroot does not exist. Run pactest -s to set it up'
+        exit
+    else
+        sudo mount --bind $CHROOT $CHROOT
+        cat <<EOF | sudo arch-chroot $CHROOT
+paru -S $2 --noconfirm
+EOF
+    exit
+    fi
+}
+
+function execute() {
+    ls $CHROOT/etc > /dev/null 2>&1
+    if [ $? == '2' ]; then
+        echo 'chroot does not exist. Run pactest -s to set it up'
+        exit
+    else
+        sudo mount --bind $CHROOT $CHROOT
+        cat <<EOF | sudo arch-chroot $CHROOT
+$2
+EOF
+    exit
+    fi
+}
+
+function delete() {
+    ls $CHROOT/etc > /dev/null 2>&1
+    if [ $? == '2' ]; then
+        echo 'chroot already deleted'
+        exit
+    else
+        sudo umount $CHROOT -lf
+        sudo rm -rf $CHROOT
+        echo 'chroot deleted'
+        exit
+    fi
+}
+
+function chroot() {
+    ls $CHROOT/etc > /dev/null 2>&1
+    if [ $? == '2' ]; then
+        echo 'chroot does not exist. Run pactest -s to set it up'
+        exit
+    else
+        sudo mount --bind $CHROOT $CHROOT
+        sudo arch-chroot $CHROOT
+    fi
+}
+
+case "$1" in
+    
+    -h) help ;;
+    --help) help ;;
+
+    -s) setup ;;
+    --setup) setup ;;
+
+    -i) install $@ ;;
+    --install) install $@ ;;
+
+    -x) execute $@ ;;
+    --execute) execute $@ ;;
+
+    -d) delete ;;
+    --delete) delete ;;
+
+    -c) chroot ;;
+    --chroot) chroot ;;
+
+esac
+
+echo $2
