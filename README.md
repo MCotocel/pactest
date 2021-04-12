@@ -26,3 +26,9 @@ Delete chroot
 ```sh
 pactest -d
 ```
+
+Chroot into chroot
+
+```sh
+pactest -s
+```
