@@ -1,5 +1,14 @@
 # pactest
-Test AUR software in a chroot
+
+Do you frequently test software but forget to uninstall it, or want to use software without it adding or removing files from your system? This script creates a chroot for you to test software from the AUR in.
+
+# Installation
+
+Use your preferred AUR helper to install `pactest-git`
+
+```sh
+paru -S pactest-git
+```
 
 ## Usage
 
@@ -30,5 +39,5 @@ pactest -d
 Chroot into chroot
 
 ```sh
-pactest -s
+pactest -c
 ```
