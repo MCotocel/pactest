@@ -1,5 +1,5 @@
 #!/bin/bash
-mkdir -p $HOME/.cache/pactest/
+CACHE=$HOME/.cache/pactest/
 CHROOT=$HOME/pactest/
 
 function help() {
@@ -15,8 +15,9 @@ function help() {
 }
 
 function setup() {
+    mkdir -p $CACHE
     echo 'Downloading Arch Bootstrap Archive. This may take a while if file is not cached'
-    wget -cq 'https://mirrors.mit.edu/archlinux/iso/2021.04.01/archlinux-bootstrap-2021.04.01-x86_64.tar.gz' -O .cache/pactest/archlinux-bootstrap.tar.gz
+    wget -cq 'https://mirrors.mit.edu/archlinux/iso/2021.04.01/archlinux-bootstrap-2021.04.01-x86_64.tar.gz' -O $CACHE/pactest/archlinux-bootstrap.tar.gz
     ls $CHROOT/etc > /dev/null 2>&1
     if [ $? == '2' ]; then
         echo 'Extracting archive to chroot location'
