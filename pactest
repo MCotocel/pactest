@@ -1,5 +1,5 @@
-#!/bin/bash
-CACHE=$HOME/.cache/pactest/
+#!/bin/sh
+CACHE=$HOME/.cache/pactest
 CHROOT=$HOME/pactest/
 
 function help() {
@@ -17,12 +17,12 @@ function help() {
 function setup() {
     mkdir -p $CACHE
     echo 'Downloading Arch Bootstrap Archive. This may take a while if file is not cached'
-    wget -cq 'https://mirrors.mit.edu/archlinux/iso/2021.04.01/archlinux-bootstrap-2021.04.01-x86_64.tar.gz' -O $CACHE/pactest/archlinux-bootstrap.tar.gz
+    wget -cq 'https://mirrors.mit.edu/archlinux/iso/2021.04.01/archlinux-bootstrap-2021.04.01-x86_64.tar.gz' -O $CACHE/archlinux-bootstrap.tar.gz
     ls $CHROOT/etc > /dev/null 2>&1
     if [ $? == '2' ]; then
         echo 'Extracting archive to chroot location'
         mkdir $CHROOT
-        sudo tar xf .cache/pactest/archlinux-bootstrap.tar.gz -C $CHROOT/ > /dev/null 2>&1
+        sudo tar xf $CACHE/archlinux-bootstrap.tar.gz -C $CHROOT/ > /dev/null 2>&1
         sudo mv $CHROOT/root.x86_64/* $CHROOT/
         sudo rm -rf $CHROOT/root.x86_64
         sudo pacstrap $CHROOT base iputils
@@ -43,7 +43,7 @@ makepkg -si --noconfirm
 cd ..
 rm -rf paru
 EOF
-        clear
+        #clear
         echo 'chroot set up. User is chroot, password is chroot'
     else
         echo 'chroot already set up'
