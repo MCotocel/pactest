@@ -2,6 +2,13 @@
 
 Do you frequently test software but forget to uninstall it, or want to use software without it adding or removing files from your system? This script creates a chroot for you to test software from the AUR in.
 
+<details>
+  <summary>Video example</summary>
+  
+   ![](https://github.com/MCotocel/pactest/blob/main/pactest.mov)
+   
+</details>
+
 # Installation
 
 Use your preferred AUR helper to install `pactest-git`
