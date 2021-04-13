@@ -5,7 +5,7 @@ Do you frequently test software but forget to uninstall it, or want to use softw
 <details>
   <summary>Video example</summary>
   
-   ![](https://github.com/MCotocel/pactest/blob/main/pactest.mov)
+   ![](https://github.com/MCotocel/pactest/blob/main/pactest.mp4)
    
 </details>
 
