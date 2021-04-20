@@ -55,7 +55,7 @@ EOF
 function install() {
     ls $CHROOT/etc > /dev/null 2>&1
     if [ $? == '2' ]; then
-        echo 'chroot does not exist. Run pactest -s to set it up'
+        echo 'chroot does not exist. Run pactest -s to set it up' >&2
         exit
     else
         sudo mount --bind $CHROOT $CHROOT
@@ -69,7 +69,7 @@ EOF
 function execute() {
     ls $CHROOT/etc > /dev/null 2>&1
     if [ $? == '2' ]; then
-        echo 'chroot does not exist. Run pactest -s to set it up'
+        echo 'chroot does not exist. Run pactest -s to set it up' >&2
         exit
     else
         sudo mount --bind $CHROOT $CHROOT
@@ -96,7 +96,7 @@ function delete() {
 function chroot() {
     ls $CHROOT/etc > /dev/null 2>&1
     if [ $? == '2' ]; then
-        echo 'chroot does not exist. Run pactest -s to set it up'
+        echo 'chroot does not exist. Run pactest -s to set it up' >&2
         exit
     else
         sudo mount --bind $CHROOT $CHROOT
