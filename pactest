@@ -19,7 +19,7 @@ setup() {
     echo 'Downloading Arch Bootstrap Archive. This may take a while if file is not cached'
     wget -cq 'https://mirrors.mit.edu/archlinux/iso/2021.04.01/archlinux-bootstrap-2021.04.01-x86_64.tar.gz' -O $CACHE/archlinux-bootstrap.tar.gz
     ls $CHROOT/etc > /dev/null 2>&1
-    if [ $? == '2' ]; then
+    if [ $? = '2' ]; then
         echo 'Extracting archive to chroot location'
         mkdir $CHROOT
         sudo tar xf $CACHE/archlinux-bootstrap.tar.gz -C $CHROOT/ > /dev/null 2>&1
@@ -54,7 +54,7 @@ EOF
 
 install() {
     ls $CHROOT/etc > /dev/null 2>&1
-    if [ $? == '2' ]; then
+    if [ $? = '2' ]; then
         echo 'chroot does not exist. Run pactest -s to set it up' >&2
         exit
     else
@@ -68,7 +68,7 @@ EOF
 
 execute() {
     ls $CHROOT/etc > /dev/null 2>&1
-    if [ $? == '2' ]; then
+    if [ $? = '2' ]; then
         echo 'chroot does not exist. Run pactest -s to set it up' >&2
         exit
     else
@@ -82,7 +82,7 @@ EOF
 
 delete() {
     ls $CHROOT/etc > /dev/null 2>&1
-    if [ $? == '2' ]; then
+    if [ $? = '2' ]; then
         echo 'chroot already deleted'
         exit
     else
@@ -95,7 +95,7 @@ delete() {
 
 chroot() {
     ls $CHROOT/etc > /dev/null 2>&1
-    if [ $? == '2' ]; then
+    if [ $? = '2' ]; then
         echo 'chroot does not exist. Run pactest -s to set it up' >&2
         exit
     else
