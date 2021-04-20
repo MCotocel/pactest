@@ -2,7 +2,7 @@
 CACHE=$HOME/.cache/pactest
 CHROOT=$HOME/pactest/
 
-function help() {
+help() {
     echo 'Usage: pactest [OPTION] [PACKAGE]'
     echo 'Options:'
     echo '-h, --help:    Show this text'
@@ -14,7 +14,7 @@ function help() {
     exit
 }
 
-function setup() {
+setup() {
     mkdir -p $CACHE
     echo 'Downloading Arch Bootstrap Archive. This may take a while if file is not cached'
     wget -cq 'https://mirrors.mit.edu/archlinux/iso/2021.04.01/archlinux-bootstrap-2021.04.01-x86_64.tar.gz' -O $CACHE/archlinux-bootstrap.tar.gz
@@ -52,7 +52,7 @@ EOF
 
 }
 
-function install() {
+install() {
     ls $CHROOT/etc > /dev/null 2>&1
     if [ $? == '2' ]; then
         echo 'chroot does not exist. Run pactest -s to set it up' >&2
@@ -66,7 +66,7 @@ EOF
     fi
 }
 
-function execute() {
+execute() {
     ls $CHROOT/etc > /dev/null 2>&1
     if [ $? == '2' ]; then
         echo 'chroot does not exist. Run pactest -s to set it up' >&2
@@ -80,7 +80,7 @@ EOF
     fi
 }
 
-function delete() {
+delete() {
     ls $CHROOT/etc > /dev/null 2>&1
     if [ $? == '2' ]; then
         echo 'chroot already deleted'
@@ -93,7 +93,7 @@ function delete() {
     fi
 }
 
-function chroot() {
+chroot() {
     ls $CHROOT/etc > /dev/null 2>&1
     if [ $? == '2' ]; then
         echo 'chroot does not exist. Run pactest -s to set it up' >&2
