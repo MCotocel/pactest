@@ -60,6 +60,7 @@ install() {
     else
         sudo mount --bind $CHROOT $CHROOT
         cat <<EOF | sudo arch-chroot $CHROOT
+su chroot
 paru -S $2 --noconfirm
 EOF
     exit
@@ -74,6 +75,7 @@ execute() {
     else
         sudo mount --bind $CHROOT $CHROOT
         cat <<EOF | sudo arch-chroot $CHROOT
+su chroot
 $2
 EOF
     exit
