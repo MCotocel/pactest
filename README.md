@@ -1,3 +1,7 @@
+# THIS SOFTWARE IS NOW UNMAINTAINED
+
+Anyway, there's better software out there. [Distrobox](https://github.com/89luca89/distrobox) is a suitable alternative.
+
 # pactest
 
 Do you frequently test software but forget to uninstall it, or want to use software without it adding or removing files from your system? This script creates a chroot for you to test software from the AUR in.
